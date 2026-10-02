@@ -1,0 +1,10 @@
+.hero{position:relative;overflow:hidden;color:#fff;background:radial-gradient(900px 520px at 78% 45%,#2a1470 0,transparent 70%),#070718}
+.hero-in{display:grid;grid-template-columns:1fr 1.15fr;align-items:center;min-height:600px;gap:10px;padding-block:24px}
+.hero-tag{display:inline-flex;gap:8px;align-items:center;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#c4a5ff;padding:7px 16px;border-radius:999px;font-size:.85rem;font-weight:600;margin-bottom:22px}
+.hero h1{font-size:clamp(2.4rem,5.2vw,5rem);font-weight:800;line-height:1;letter-spacing:-.01em}
+.hero h1 span{display:block;background:linear-gradient(90deg,#8b2cf5,#a855f7 45%,#22d3ee);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:1.2rem;color:#dcdcf5;max-width:30ch;margin:22px 0 30px}
+.hero-img{display:flex;align-items:center}
+.hero-img img{width:100%;-webkit-mask-image:linear-gradient(90deg,transparent,#000 20%),linear-gradient(180deg,transparent,#000 10%,#000 90%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(90deg,transparent,#000 20%),linear-gradient(180deg,transparent,#000 10%,#000 90%,transparent);mask-composite:intersect}
+.trust{display:flex;flex-wrap:wrap;margin-top:44px}.trust div{display:flex;flex-direction:column;align-items:center;gap:8px;padding:0 24px;font-size:.88rem;border-left:1px solid rgba(255,255,255,.14)}
+.trust div:first-child{border:0;padding-left:0}.trust .ico{width:44px;height:44px;padding:10px;border:1.5px solid var(--violet);border-radius:50%;color:#c4b5fd}

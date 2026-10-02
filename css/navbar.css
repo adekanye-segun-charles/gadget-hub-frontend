@@ -1,0 +1,13 @@
+#navbar{position:sticky;top:0;z-index:100}
+.nav{background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);box-shadow:0 2px 14px rgba(20,18,43,.05)}
+.nav-in{display:flex;align-items:center;gap:28px;height:80px}
+.brand{display:flex;align-items:center;gap:10px}.brand b{font-size:1.5rem;font-weight:800;letter-spacing:.02em;display:block;line-height:1}
+.brand em{font-style:normal;color:var(--violet)}.brand small{font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:var(--muted)}
+.nav-links{display:flex;gap:30px;margin-inline:auto}.nav-links a{padding:6px 0;font-weight:500;border-bottom:2px solid transparent}
+.nav-links a.active,.nav-links a:hover{color:var(--violet);border-color:var(--violet)}
+.nav-search{display:flex;align-items:center;gap:10px;background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:0 18px;height:44px;width:380px}
+.nav-search input{flex:1;background:none;border:0;outline:0;min-width:0}.nav-search input::placeholder{color:var(--muted)}
+.nav-actions{display:flex;gap:20px}.ico{width:24px;height:24px;display:block}.badge-wrap{position:relative}
+.nav-actions a:hover{color:var(--violet)}
+.count{position:absolute;top:-8px;right:-10px;background:var(--violet);border-radius:999px;font-size:.68rem;min-width:18px;height:18px;display:grid;place-items:center}
+.nav-toggle{display:none;background:none;border:0;font-size:1.7rem;cursor:pointer}
