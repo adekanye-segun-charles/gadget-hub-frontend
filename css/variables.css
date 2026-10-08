@@ -1,2 +1,2 @@
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;800&display=swap");
-:root{--bg:#fff;--bg2:#f6f5fb;--panel:#fff;--line:#e6e4f0;--text:#14122b;--muted:#6b6a86;--violet:#7c3aed;--violet-hi:#7c3aed;--cyan:#22d3ee;--danger:#dc2626;--ok:#16a34a;--r:12px;--font:"Outfit",system-ui,sans-serif}
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+:root{--bg:#fff;--bg2:#f7f8fa;--panel:#fff;--line:#e5e7eb;--text:#111827;--muted:#667085;--violet:#ff6a00;--violet-hi:#ff6a00;--cyan:#ff8a00;--danger:#dc2626;--ok:#15803d;--r:12px;--font:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--navy:#07111f;--navy-soft:#0b1420;--orange:#ff6a00;--orange-hover:#e85e00;--shadow-soft:0 12px 32px rgba(7,17,31,.07)}

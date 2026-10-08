@@ -1,1 +1,60 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Log in | Gadget Hub</title><link rel="stylesheet" href="../../css/variables.css"><link rel="stylesheet" href="../../css/global.css"><link rel="stylesheet" href="../../css/components.css"><link rel="stylesheet" href="../../css/navbar.css"><link rel="stylesheet" href="../../css/hero.css"><link rel="stylesheet" href="../../css/footer.css"><link rel="stylesheet" href="../../css/responsive.css"></head><body data-root="../../"><div id="navbar"></div><main><form class="form-card" id="f"><h1>Welcome back</h1><p class="muted">Log in to your Gadget Hub account.</p><div class="field"><label>Email</label><input name="email" type="email" required autocomplete="email"><div class="field-error" data-error="email"></div></div><div class="field"><label>Password</label><input name="password" type="password" required autocomplete="current-password"><div class="field-error" data-error="password"></div></div><button class="btn primary" type="submit">Log in</button><p class="muted" style="margin-top:16px">New here? <a href="register.html" style="color:var(--violet-hi)">Create an account</a></p></form></main><div id="footer"></div><script src="../../js/config.js"></script><script src="../../js/api.js"></script><script src="../../js/utils.js"></script><script src="../../js/auth.js"></script><script src="../../js/components.js"></script><script src="../../js/auth-pages.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Log in | Gadget Hub</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/navbar.css">
+  <link rel="stylesheet" href="../../css/hero.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/account.css">
+</head>
+<body class="auth-page" data-root="../../">
+  <div id="navbar"></div>
+  <main class="login-modal-layer">
+    <section class="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-title">
+      <a class="login-modal-close" href="../../index.html" aria-label="Close login and return to the home page">&times;</a>
+      <header class="auth-brand" aria-label="Gadget Hub">
+        <span class="auth-brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M13.6 1.8 4.8 13h5.8l-.7 9.2L19.2 10h-5.8l.2-8.2Z"/></svg>
+        </span>
+        <span class="auth-brand-name">GADGET <b>HUB</b></span>
+        <small>TECH FOR EVERY DAY</small>
+      </header>
+      <form class="form-card" id="f">
+        <h1 id="login-title">Welcome back</h1>
+        <p class="muted auth-intro">Log in to your Gadget Hub account.</p>
+        <div class="field">
+          <label for="login-email">Email</label>
+          <input id="login-email" name="email" type="email" required autocomplete="email" autofocus>
+          <div class="field-error" data-error="email"></div>
+        </div>
+        <div class="field">
+          <label for="login-password">Password</label>
+          <div class="password-input">
+            <input id="login-password" name="password" type="password" required autocomplete="current-password">
+            <button class="password-toggle" type="button" aria-label="Show password" aria-pressed="false" aria-controls="login-password" data-toggle-password>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="field-error" data-error="password"></div>
+          <a class="forgot-password-link" href="forgot-password.html">Forgot password?</a>
+        </div>
+        <button class="btn primary" type="submit">Log in</button>
+        <p class="muted auth-switch">New here? <a href="register.html">Create an account</a></p>
+      </form>
+    </section>
+  </main>
+  <div id="footer"></div>
+  <script src="../../js/config.js"></script>
+  <script src="../../js/api.js"></script>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/auth-pages.js"></script>
+</body>
+</html>

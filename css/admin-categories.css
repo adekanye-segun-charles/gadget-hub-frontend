@@ -1,0 +1,5 @@
+.admin-category-thumbnail{display:block;width:64px;height:64px;border:1px solid var(--line);border-radius:7px;background:var(--bg2);object-fit:contain}
+.admin-category-upload{position:relative;display:inline-flex;align-items:center;min-height:34px;margin:2px;padding:7px 10px;border:1px solid var(--line);border-radius:7px;background:var(--panel);color:var(--text);font-size:.8rem;font-weight:600;cursor:pointer}
+.admin-category-upload:hover{border-color:var(--violet-hi);color:var(--violet-hi)}
+.admin-category-upload:focus-within{outline:2px solid var(--violet-hi);outline-offset:2px}
+.admin-category-upload input{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}

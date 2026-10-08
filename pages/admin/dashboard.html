@@ -1,1 +1,121 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dashboard | Gadget Hub Admin</title><link rel="stylesheet" href="../../css/variables.css"><link rel="stylesheet" href="../../css/global.css"><link rel="stylesheet" href="../../css/components.css"><link rel="stylesheet" href="../../css/navbar.css"><link rel="stylesheet" href="../../css/hero.css"><link rel="stylesheet" href="../../css/footer.css"><link rel="stylesheet" href="../../css/responsive.css"></head><body data-root="../../"><div class="admin"><aside class="sidebar"><b style="padding:10px 14px 18px;font-size:1.2rem">Gadget Hub</b><a class="active" href="dashboard.html">Dashboard</a><a href="users.html">Users</a><a href="products.html">Products</a><a href="categories.html">Categories</a><a href="orders.html">Orders</a><a href="payments.html">Payments</a><a href="coupons.html">Coupons</a><a href="reviews.html">Reviews</a><button id="out">Logout</button></aside><main class="admin-main"><h1>Dashboard</h1><div class="stats" id="stats"></div></main></div><script src="../../js/config.js"></script><script src="../../js/api.js"></script><script src="../../js/utils.js"></script><script src="../../js/auth.js"></script><script src="../../js/components.js"></script><script src="../../js/admin/dashboard.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Store dashboard | Gadget Hub Admin</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/navbar.css">
+  <link rel="stylesheet" href="../../css/hero.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/admin-categories.css">
+</head>
+<body data-root="../../">
+  <div class="admin">
+    <aside class="sidebar">
+      <a class="admin-brand" href="../../index.html">Gadget Hub <small>Store admin</small></a>
+      <nav class="admin-nav" aria-label="Admin dashboard sections">
+        <a href="#overview">Overview</a>
+        <a href="#products">Products</a>
+        <a href="#categories">Categories</a>
+        <a href="#orders">Orders</a>
+        <a href="#customers">Customers</a>
+        <a href="#coupons">Coupons</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#payments">Payments</a>
+      </nav>
+      <button id="out" class="admin-logout" type="button">Log out</button>
+    </aside>
+
+    <main class="admin-main">
+      <header class="admin-heading">
+        <div><p class="admin-eyebrow">GADGET HUB / MANAGEMENT</p><h1>Your store</h1><p class="muted">Manage your catalog, orders, customers, and promotions.</p></div>
+        <button id="refresh-dashboard" class="btn ghost" type="button">Refresh data</button>
+      </header>
+      <p id="admin-message" class="admin-message" role="status" aria-live="polite"></p>
+
+      <section class="admin-section" id="overview">
+        <div class="admin-section-heading"><div><p class="admin-eyebrow">AT A GLANCE</p><h2>Overview</h2></div></div>
+        <div class="stats" id="stats"><div class="card stat">Loading store statistics...</div></div>
+      </section>
+
+      <section class="admin-section" id="products">
+        <div class="admin-section-heading"><div><p class="admin-eyebrow">CATALOG</p><h2>Products</h2></div></div>
+        <form class="card admin-form" id="product-form">
+          <h3 id="product-form-title">Add a product</h3>
+          <input type="hidden" name="id">
+          <div class="admin-form-grid">
+            <label>Product name<input name="name" required minlength="2" maxlength="200"></label>
+            <label>SKU<input name="sku" required minlength="2" maxlength="100"></label>
+            <label>Category<select name="categoryId" required><option value="">Choose a category</option></select></label>
+            <label>Brand<input name="brand" maxlength="100"></label>
+            <label>Price (NGN)<input name="price" type="number" min="0.01" step="0.01" required></label>
+            <label>Compare-at price<input name="comparePrice" type="number" min="0.01" step="0.01"></label>
+            <label>Stock quantity<input name="stock" type="number" min="0" step="1" required value="0"></label>
+            <label class="admin-check"><input name="isFeatured" type="checkbox"> Feature this product on the home page</label>
+            <label class="admin-form-wide">Description<textarea name="description" required minlength="10" rows="3"></textarea></label>
+            <label class="admin-form-wide">Product image (JPEG, PNG, or WebP; max 5 MB)<input name="image" type="file" accept="image/jpeg,image/png,image/webp"></label>
+          </div>
+          <div class="admin-form-actions"><button class="btn primary" type="submit">Save product</button><button class="btn ghost" id="cancel-product-edit" type="button" hidden>Cancel edit</button></div>
+          <div class="admin-product-images" id="product-images" hidden></div>
+        </form>
+        <div class="toolbar admin-toolbar"><input id="product-search" type="search" placeholder="Search name, SKU, or brand"><button id="search-products" class="btn ghost" type="button">Search</button></div>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Images</th><th>Status</th><th>Actions</th></tr></thead><tbody id="product-rows"><tr><td colspan="7">Loading products...</td></tr></tbody></table></div>
+      </section>
+
+      <section class="admin-section" id="categories">
+        <div class="admin-section-heading"><div><p class="admin-eyebrow">CATALOG</p><h2>Categories</h2></div></div>
+        <form class="card admin-form admin-inline-form" id="category-form">
+          <label>Category name<input name="name" required minlength="2" maxlength="100"></label>
+          <label>Description<input name="description" maxlength="500"></label>
+          <label>Category image (JPEG, PNG, or WebP; max 5 MB)<input name="image" type="file" accept="image/jpeg,image/png,image/webp"></label>
+          <button class="btn primary" type="submit">Add category</button>
+        </form>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Image</th><th>Category</th><th>Products</th><th>Status</th><th>Actions</th></tr></thead><tbody id="category-rows"><tr><td colspan="5">Loading categories...</td></tr></tbody></table></div>
+      </section>
+
+      <section class="admin-section" id="orders">
+        <div class="admin-section-heading"><div><p class="admin-eyebrow">FULFILMENT</p><h2>Orders</h2></div></div>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Order</th><th>Customer</th><th>Date</th><th>Total</th><th>Payment</th><th>Order status</th></tr></thead><tbody id="order-rows"><tr><td colspan="6">Loading orders...</td></tr></tbody></table></div>
+      </section>
+
+      <section class="admin-section" id="customers">
+        <div class="admin-section-heading"><div><p class="admin-eyebrow">ACCOUNTS</p><h2>Customers</h2></div></div>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Name</th><th>Email</th><th>Orders</th><th>Status</th><th>Action</th></tr></thead><tbody id="customer-rows"><tr><td colspan="5">Loading customers...</td></tr></tbody></table></div>
+      </section>
+
+      <section class="admin-section" id="coupons">
+        <div class="admin-section-heading"><div><p class="admin-eyebrow">PROMOTIONS</p><h2>Coupons</h2></div></div>
+        <form class="card admin-form admin-inline-form" id="coupon-form">
+          <label>Code<input name="code" required minlength="3" maxlength="50" pattern="[A-Za-z0-9_-]+"></label>
+          <label>Discount type<select name="discountType"><option value="PERCENTAGE">Percentage</option><option value="FIXED">Fixed amount (NGN)</option></select></label>
+          <label>Discount value<input name="discountValue" type="number" min="0.01" step="0.01" required></label>
+          <label>Minimum order (NGN)<input name="minimumAmount" type="number" min="0" step="0.01" value="0"></label>
+          <button class="btn primary" type="submit">Create coupon</button>
+        </form>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Code</th><th>Discount</th><th>Uses</th><th>Status</th><th>Actions</th></tr></thead><tbody id="coupon-rows"><tr><td colspan="5">Loading coupons...</td></tr></tbody></table></div>
+      </section>
+
+      <section class="admin-section" id="reviews">
+        <div class="admin-section-heading"><div><p class="admin-eyebrow">CUSTOMER FEEDBACK</p><h2>Reviews</h2></div></div>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Product</th><th>Customer</th><th>Rating</th><th>Review</th><th>Approval</th><th>Actions</th></tr></thead><tbody id="review-rows"><tr><td colspan="6">Loading reviews...</td></tr></tbody></table></div>
+      </section>
+
+      <section class="admin-section" id="payments">
+        <div class="admin-section-heading"><div><p class="admin-eyebrow">REVENUE</p><h2>Payments</h2></div></div>
+        <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Reference</th><th>Order</th><th>Amount</th><th>Gateway</th><th>Status</th><th>Date</th></tr></thead><tbody id="payment-rows"><tr><td colspan="6">Loading payments...</td></tr></tbody></table></div>
+      </section>
+    </main>
+  </div>
+  <div id="toasts" aria-live="polite"></div>
+  <script src="../../js/config.js"></script>
+  <script src="../../js/api.js"></script>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/admin/dashboard.js"></script>
+</body>
+</html>

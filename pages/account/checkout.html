@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Checkout | Gadget Hub</title>
+  <link rel="stylesheet" href="../../css/variables.css">
+  <link rel="stylesheet" href="../../css/global.css">
+  <link rel="stylesheet" href="../../css/components.css">
+  <link rel="stylesheet" href="../../css/navbar.css">
+  <link rel="stylesheet" href="../../css/hero.css">
+  <link rel="stylesheet" href="../../css/footer.css">
+  <link rel="stylesheet" href="../../css/responsive.css">
+  <link rel="stylesheet" href="../../css/account.css">
+</head>
+<body class="account-page" data-root="../../">
+  <div id="navbar"></div>
+  <main class="container section">
+    <h1>Checkout</h1>
+    <p id="checkout-status" class="muted" role="status" aria-live="polite"></p>
+    <div class="checkout-layout">
+      <form class="form-card checkout-form" id="checkout-form">
+        <h2>Delivery details</h2>
+        <p class="muted">Enter the address where your order should be delivered.</p>
+        <div class="field"><label for="fullName">Full name</label><input id="fullName" name="fullName" autocomplete="name" required minlength="2" maxlength="100"></div>
+        <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" required minlength="7" maxlength="20"></div>
+        <div class="field"><label for="address">Street address</label><input id="address" name="address" autocomplete="street-address" required minlength="5" maxlength="300"></div>
+        <div class="field"><label for="city">City</label><input id="city" name="city" autocomplete="address-level2" required minlength="2" maxlength="100"></div>
+        <div class="field"><label for="state">State</label><input id="state" name="state" autocomplete="address-level1" required minlength="2" maxlength="100"></div>
+        <div class="field"><label for="country">Country</label><input id="country" name="country" autocomplete="country-name" value="Nigeria" required minlength="2" maxlength="100"></div>
+        <button class="btn primary" id="checkout-submit" type="submit">Continue to payment</button>
+        <a class="btn ghost" style="width:100%;margin-top:12px" href="cart.html">Return to cart</a>
+      </form>
+      <section class="card checkout-summary" aria-labelledby="summary-title">
+        <h2 id="summary-title">Order summary</h2>
+        <div id="checkout-items"><p class="muted">Loading your cart...</p></div>
+        <div class="summary-total"><span>Subtotal</span><strong id="checkout-total">—</strong></div>
+        <p class="muted">Shipping and any applicable discounts are confirmed when your order is created.</p>
+      </section>
+    </div>
+  </main>
+  <div id="footer"></div>
+  <script src="../../js/config.js"></script>
+  <script src="../../js/api.js"></script>
+  <script src="../../js/utils.js"></script>
+  <script src="../../js/auth.js"></script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/account/checkout.js"></script>
+</body>
+</html>
