@@ -126,8 +126,9 @@
 .login-modal .form-card:hover{transform:none;border-color:transparent;box-shadow:none}
 .login-modal .form-card h1{font-size:1.45rem}
 .login-modal .auth-switch{margin-bottom:0}
-.forgot-password-link{display:inline-block;margin-top:5px;color:var(--orange);font-size:.78rem;font-weight:650}
-.forgot-password-link:hover{text-decoration:underline}
+.login-password-links{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:5px}
+.forgot-password-link,.admin-login-link{color:var(--orange);font-size:.78rem;font-weight:650}
+.forgot-password-link:hover,.admin-login-link:hover{text-decoration:underline}
 .recovery-status{margin-top:10px;color:var(--ok);font-size:.82rem}
 .recovery-status.is-error{color:var(--danger)}
 .register-modal-layer{align-items:flex-start;padding:16px}
