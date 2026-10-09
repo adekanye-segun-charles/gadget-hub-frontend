@@ -15,7 +15,14 @@ async function load() {
     box.innerHTML = `<div class="cart-content"><div class="cart-items-panel">${items.map((i) => { const p = i.product || i; return `<div class="cart-row"><img src="${esc(imgOf(p))}" alt="${esc(p.name)}" onerror="this.onerror=null;this.src=FALLBACK_IMG"><div class="cart-product-info"><a href="../shop/product-details.html?id=${encodeURIComponent(p.id)}">${esc(p.name)}</a><div class="muted">${money(p.price)} each</div></div>
       <div class="qty"><button type="button" aria-label="Decrease quantity" data-d="-1" data-id="${esc(i.id)}" data-q="${Number(i.quantity)}">−</button><span>${Number(i.quantity)}</span><button type="button" aria-label="Increase quantity" data-d="1" data-id="${esc(i.id)}" data-q="${Number(i.quantity)}">+</button></div><b class="cart-line-total">${money(Number(p.price) * i.quantity)}</b><button class="linkbtn cart-remove" type="button" data-rm="${esc(i.id)}">Remove</button></div>`; }).join("")}</div>
       <aside class="card summary cart-order-summary"><span class="cart-summary-label">ORDER TOTAL</span><div class="total"><span>Subtotal</span><strong>${money(sub)}</strong></div><p class="muted">Shipping and discounts are calculated at checkout.</p><a class="btn primary cart-checkout-button" href="checkout.html">Proceed to checkout <span aria-hidden="true">→</span></a><a class="cart-back-link" href="../shop/products.html">Continue shopping</a></aside></div>`;
-  } catch (e) { box.innerHTML = errorState(e.message); }
+  } catch (e) {
+    if (e.status === 401) {
+      const next = encodeURIComponent(location.pathname + location.search);
+      location.href = `${ROOT}pages/auth/login.html?next=${next}`;
+      return;
+    }
+    box.innerHTML = errorState(e.message);
+  }
 }
 
 async function loadRecommendations() {

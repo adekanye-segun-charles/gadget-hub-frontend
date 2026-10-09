@@ -12,6 +12,13 @@ function setCheckoutStatus(message) {
   statusBox.textContent = message;
 }
 
+function redirectToLoginForExpiredSession(error) {
+  if (error.status !== 401) return false;
+  const next = encodeURIComponent(location.pathname + location.search);
+  location.href = `${ROOT}pages/auth/login.html?next=${next}`;
+  return true;
+}
+
 async function verifyReturnPayment() {
   const query = params();
   const reference = query.reference || query.trxref;
@@ -30,6 +37,7 @@ async function verifyReturnPayment() {
     pendingOrderId = null;
     setCheckoutStatus(`Payment confirmed. Order ${result.order?.orderNumber || ""} is being processed.`);
   } catch (error) {
+    if (redirectToLoginForExpiredSession(error)) return;
     setCheckoutStatus(`We could not confirm your payment: ${error.message}. Please retry or contact support before paying again.`);
     submitButton.disabled = !pendingOrderId;
   }
@@ -58,6 +66,7 @@ async function loadCart() {
       setCheckoutStatus("You have an unpaid order. You can retry its payment without creating a duplicate order.");
     }
   } catch (error) {
+    if (redirectToLoginForExpiredSession(error)) return;
     itemsBox.innerHTML = errorState(error.message);
     submitButton.disabled = true;
   }
@@ -97,6 +106,7 @@ form.addEventListener("submit", async (event) => {
     }
     location.assign(payment.authorizationUrl);
   } catch (error) {
+    if (redirectToLoginForExpiredSession(error)) return;
     if (pendingOrderId) await loadCart();
     setCheckoutStatus(error.message || "Checkout could not be completed. Please try again.");
     submitButton.disabled = false;
