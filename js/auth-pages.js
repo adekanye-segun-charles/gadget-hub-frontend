@@ -43,5 +43,9 @@ bindAuthForm(f, async (v) => {
     toast("Account created. Please log in."); setTimeout(() => (location.href = "login.html"), 900); return;
   }
   const r = await api.post(ENDPOINTS.login, v, { auth: false });
-  localStorage.setItem(TOKEN_KEY, r.data.token); location.href = next;
+  const token = r.data?.token;
+  if (typeof token !== "string" || !token) {
+    throw new ApiError("Login completed without a session token. Please try again.", 502);
+  }
+  localStorage.setItem(TOKEN_KEY, token); location.href = next;
 });
