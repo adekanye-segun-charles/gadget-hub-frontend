@@ -1,5 +1,5 @@
-// Single place to change the API URL (e.g. for production).
-const API_BASE_URL = window.GADGET_HUB_API_URL || "http://localhost:3000";
+// Override with window.GADGET_HUB_API_URL when needed; use the hosted API by default.
+const API_BASE_URL = window.GADGET_HUB_API_URL || "https://gadget-hub-backend-cqy7.onrender.com";
 // Routes whose exact shape lives in your backend: adjust here if yours differ.
 const ENDPOINTS = {
   login: "/api/auth/login", register: "/api/auth/register", me: "/api/users/me",
@@ -14,4 +14,4 @@ const ENDPOINTS = {
 };
 const TOKEN_KEY = "gadgetHubToken", ADMIN_TOKEN_KEY = "gadgetHubAdminToken";
 // Contact details shown in the footer. Replace with your real details.
-const SITE = { email: "support@gadgethub.ng", phone: "+234 800 000 0000", address: "Lagos, Nigeria", hours: "Mon - Sat, 8am - 7pm" };
+const SITE = { email: "adekanyeseguncharles@gmail.com", phone: "+234 9128327370", address: "Ilorin, Nigeria", hours: "Mon - Sat, 8am - 10pm" };
