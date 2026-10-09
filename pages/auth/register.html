@@ -28,9 +28,14 @@
       <h1 id="register-title">Create your account</h1>
       <p class="muted auth-intro">A few details and you’re ready to shop.</p>
       <div class="field">
-        <label for="register-name">Name</label>
-        <input id="register-name" name="name" autocomplete="name" required>
-        <div class="field-error" data-error="name"></div>
+        <label for="register-first-name">First name</label>
+        <input id="register-first-name" name="firstName" autocomplete="given-name" minlength="2" maxlength="50" required>
+        <div class="field-error" data-error="firstName"></div>
+      </div>
+      <div class="field">
+        <label for="register-last-name">Last name</label>
+        <input id="register-last-name" name="lastName" autocomplete="family-name" minlength="2" maxlength="50" required>
+        <div class="field-error" data-error="lastName"></div>
       </div>
       <div class="field">
         <label for="register-email">Email</label>
@@ -39,7 +44,7 @@
       </div>
       <div class="field">
         <label for="register-phone">Phone</label>
-        <input id="register-phone" name="phone" type="tel" autocomplete="tel" required>
+        <input id="register-phone" name="phone" type="tel" autocomplete="tel" minlength="7" maxlength="20" required>
         <div class="field-error" data-error="phone"></div>
       </div>
       <div class="field">
