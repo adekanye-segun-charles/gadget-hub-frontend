@@ -44,7 +44,7 @@ async function loadCart() {
     itemsBox.innerHTML = items.length
       ? items.map((item) => {
           const product = item.product || item;
-          return `<div class="checkout-item"><span>${esc(product.name)} × ${Number(item.quantity || 1)}</span><strong>${money(Number(product.price) * Number(item.quantity || 1))}</strong></div>`;
+          return `<div class="checkout-item"><img src="${esc(imgOf(product))}" alt="" onerror="this.onerror=null;this.src=FALLBACK_IMG"><span>${esc(product.name)}<small>Qty ${Number(item.quantity || 1)}</small></span><strong>${money(Number(product.price) * Number(item.quantity || 1))}</strong></div>`;
         }).join("")
       : emptyState("Your cart is empty", "Add products before starting a new order.", `<a class="btn ghost" href="../shop/products.html">Browse products</a>`);
     const subtotal = data.subtotal ?? data.total ?? items.reduce(

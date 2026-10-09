@@ -6,9 +6,10 @@ const adminMessage = $admin("#admin-message");
 const productForm = $admin("#product-form");
 const categoryForm = $admin("#category-form");
 const couponForm = $admin("#coupon-form");
+const currentAdminPage = document.body.dataset.adminPage || "overview";
 
-$admin("#out").addEventListener("click", () => Auth.adminLogout());
-$admin("#refresh-dashboard").addEventListener("click", async (event) => {
+$admin("#out")?.addEventListener("click", () => Auth.adminLogout());
+$admin("#refresh-dashboard")?.addEventListener("click", async (event) => {
   const button = event.currentTarget;
   button.disabled = true;
   try {
@@ -18,14 +19,14 @@ $admin("#refresh-dashboard").addEventListener("click", async (event) => {
     button.disabled = false;
   }
 });
-$admin("#search-products").addEventListener("click", loadProducts);
-$admin("#product-search").addEventListener("keydown", (event) => {
+$admin("#search-products")?.addEventListener("click", loadProducts);
+$admin("#product-search")?.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
     loadProducts();
   }
 });
-$admin("#cancel-product-edit").addEventListener("click", resetProductForm);
+$admin("#cancel-product-edit")?.addEventListener("click", resetProductForm);
 
 function adminRequest(method, path, body, query) {
   const options = { admin: true };
@@ -46,17 +47,20 @@ function showAdminError(error) {
     Auth.adminLogout();
     return;
   }
+  if (!adminMessage) return;
   adminMessage.textContent = error.message || "The request failed.";
   adminMessage.classList.add("is-error");
 }
 
 function clearAdminMessage() {
+  if (!adminMessage) return;
   adminMessage.textContent = "";
   adminMessage.classList.remove("is-error");
 }
 
 function setTableMessage(id, message, columns) {
-  $admin(`#${id}`).innerHTML = `<tr><td colspan="${columns}">${esc(message)}</td></tr>`;
+  const tableBody = $admin(`#${id}`);
+  if (tableBody) tableBody.innerHTML = `<tr><td colspan="${columns}">${esc(message)}</td></tr>`;
 }
 
 function pageItems(result, key) {
@@ -73,6 +77,8 @@ function slugify(value) {
 }
 
 function renderStats(data) {
+  const stats = $admin("#stats");
+  if (!stats) return;
   const cards = [
     ["Products", data.products?.total ?? 0, `${data.products?.active ?? 0} active · ${data.products?.lowStock ?? 0} low stock`],
     ["Categories", data.categories?.total ?? 0, "Store catalog"],
@@ -81,12 +87,13 @@ function renderStats(data) {
     ["Revenue", money(data.revenue?.total ?? 0), "Successful payments"],
     ["Reviews", data.reviews?.total ?? 0, `${data.reviews?.pendingApproval ?? 0} awaiting approval`]
   ];
-  $admin("#stats").innerHTML = cards.map(([title, value, note]) =>
+  stats.innerHTML = cards.map(([title, value, note]) =>
     `<article class="card stat"><small>${esc(title)}</small><b>${esc(value)}</b><span class="muted">${esc(note)}</span></article>`
   ).join("");
 }
 
 async function loadOverview() {
+  if (!$admin("#stats")) return;
   try {
     const result = await adminRequest("GET", "/dashboard");
     renderStats(dataOf(result));
@@ -97,17 +104,22 @@ async function loadOverview() {
 }
 
 async function loadCategories() {
+  if (!$admin("#category-rows") && !productForm) return;
   try {
     const result = await adminRequest("GET", "/categories", null, { limit: 100 });
     const categories = pageItems(result, "categories");
-    const categorySelect = productForm.elements.categoryId;
-    const selected = categorySelect.value;
-    categorySelect.innerHTML = `<option value="">Choose a category</option>${categories.map((category) =>
-      `<option value="${esc(category.id)}">${esc(category.name)}</option>`
-    ).join("")}`;
-    if (categories.some((category) => category.id === selected)) categorySelect.value = selected;
+    const categorySelect = productForm?.elements.categoryId;
+    const selected = categorySelect?.value;
+    if (categorySelect) {
+      categorySelect.innerHTML = `<option value="">Choose a category</option>${categories.map((category) =>
+        `<option value="${esc(category.id)}">${esc(category.name)}</option>`
+      ).join("")}`;
+      if (categories.some((category) => category.id === selected)) categorySelect.value = selected;
+    }
 
-    $admin("#category-rows").innerHTML = categories.length ? categories.map((category) => `
+    const categoryRows = $admin("#category-rows");
+    if (!categoryRows) return;
+    categoryRows.innerHTML = categories.length ? categories.map((category) => `
       <tr>
         <td>${category.image ? `<img class="admin-category-thumbnail" src="${esc(category.image)}" alt="${esc(category.name)}" loading="lazy">` : `<span class="muted">No image</span>`}</td>
         <td><strong>${esc(category.name)}</strong><small>${esc(category.slug)}</small></td>
@@ -127,11 +139,12 @@ async function loadCategories() {
 }
 
 async function loadProducts() {
+  if (!$admin("#product-rows")) return;
   setTableMessage("product-rows", "Loading products...", 7);
   try {
     const result = await adminRequest("GET", "/products", null, {
       limit: 100,
-      search: $admin("#product-search").value.trim()
+      search: $admin("#product-search")?.value.trim() || ""
     });
     const products = pageItems(result, "products");
     $admin("#product-rows").innerHTML = products.length ? products.map((product) => `
@@ -142,7 +155,7 @@ async function loadProducts() {
         <td>${Number(product.stock)}</td>
         <td>${Number(product.images?.length || 0)}</td>
         <td><span class="admin-badge ${product.isActive ? "is-active" : ""}">${product.isActive ? "Active" : "Inactive"}</span></td>
-        <td class="admin-actions">
+        <td class="admin-actions admin-product-actions">
           <button class="btn sm ghost" type="button" data-action="edit-product" data-id="${esc(product.id)}">Edit</button>
           <button class="btn sm ghost" type="button" data-action="toggle-product" data-id="${esc(product.id)}" data-active="${product.isActive}">${product.isActive ? "Deactivate" : "Activate"}</button>
           <button class="btn sm danger" type="button" data-action="delete-product" data-id="${esc(product.id)}">Delete</button>
@@ -155,6 +168,7 @@ async function loadProducts() {
 }
 
 function resetProductForm() {
+  if (!productForm) return;
   productForm.reset();
   productForm.elements.id.value = "";
   productForm.elements.stock.value = "0";
@@ -167,6 +181,7 @@ function resetProductForm() {
 
 function renderProductImages(images = []) {
   const box = $admin("#product-images");
+  if (!box) return;
   box.hidden = images.length === 0;
   box.innerHTML = images.length ? `<h4>Product images</h4><div class="admin-image-list">${images.map((image) => `
     <div class="admin-image-card">
@@ -179,7 +194,7 @@ function renderProductImages(images = []) {
     </div>`).join("")}</div>` : "";
 }
 
-productForm.addEventListener("submit", async (event) => {
+productForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!productForm.reportValidity()) return;
   clearAdminMessage();
@@ -227,7 +242,7 @@ productForm.addEventListener("submit", async (event) => {
   }
 });
 
-categoryForm.addEventListener("submit", async (event) => {
+categoryForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!categoryForm.reportValidity()) return;
   const values = new FormData(categoryForm);
@@ -283,7 +298,7 @@ async function uploadCategoryImage(categoryId, file) {
   return api.post(`${adminRoot}/uploads/categories/${encodeURIComponent(categoryId)}/image`, upload, { admin: true });
 }
 
-$admin("#category-rows").addEventListener("change", async (event) => {
+$admin("#category-rows")?.addEventListener("change", async (event) => {
   const input = event.target.closest("[data-category-upload]");
   const file = input?.files?.[0];
   if (!input || !file) return;
@@ -302,6 +317,7 @@ $admin("#category-rows").addEventListener("change", async (event) => {
 });
 
 async function loadOrders() {
+  if (!$admin("#order-rows")) return;
   try {
     const result = await adminRequest("GET", "/orders", null, { limit: 100 });
     const orders = pageItems(result, "orders");
@@ -326,7 +342,7 @@ async function loadOrders() {
   }
 }
 
-$admin("#order-rows").addEventListener("change", async (event) => {
+$admin("#order-rows")?.addEventListener("change", async (event) => {
   const select = event.target.closest("[data-order-status]");
   if (!select) return;
   select.disabled = true;
@@ -344,6 +360,7 @@ $admin("#order-rows").addEventListener("change", async (event) => {
 });
 
 async function loadCustomers() {
+  if (!$admin("#customer-rows")) return;
   try {
     const result = await adminRequest("GET", "/users", null, { limit: 100 });
     const customers = pageItems(result, "users").filter((user) => user.role === "CUSTOMER");
@@ -362,6 +379,7 @@ async function loadCustomers() {
 }
 
 async function loadCoupons() {
+  if (!$admin("#coupon-rows")) return;
   try {
     const result = await adminRequest("GET", "/coupons", null, { limit: 100 });
     const coupons = pageItems(result, "coupons");
@@ -379,7 +397,7 @@ async function loadCoupons() {
   }
 }
 
-couponForm.addEventListener("submit", async (event) => {
+couponForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!couponForm.reportValidity()) return;
   const values = new FormData(couponForm);
@@ -405,6 +423,7 @@ couponForm.addEventListener("submit", async (event) => {
 });
 
 async function loadReviews() {
+  if (!$admin("#review-rows")) return;
   try {
     const result = await adminRequest("GET", "/reviews", null, { limit: 100 });
     const reviews = pageItems(result, "reviews");
@@ -424,6 +443,7 @@ async function loadReviews() {
 }
 
 async function loadPayments() {
+  if (!$admin("#payment-rows")) return;
   try {
     const result = await adminRequest("GET", "/payments", null, { limit: 100 });
     const payments = pageItems(result, "payments");
@@ -559,21 +579,27 @@ async function handleAdminAction(event) {
 }
 
 for (const id of ["product-rows", "category-rows", "customer-rows", "coupon-rows", "review-rows", "product-images"]) {
-  $admin(`#${id}`).addEventListener("click", handleAdminAction);
+  $admin(`#${id}`)?.addEventListener("click", handleAdminAction);
 }
 
 async function loadDashboard() {
   clearAdminMessage();
-  await Promise.all([
-    loadOverview(),
-    loadCategories(),
-    loadProducts(),
-    loadOrders(),
-    loadCustomers(),
-    loadCoupons(),
-    loadReviews(),
-    loadPayments()
-  ]);
+  const pageLoaders = {
+    overview: [loadOverview],
+    products: [loadCategories, loadProducts],
+    categories: [loadCategories],
+    orders: [loadOrders],
+    customers: [loadCustomers],
+    coupons: [loadCoupons],
+    reviews: [loadReviews],
+    payments: [loadPayments]
+  };
+  await Promise.all((pageLoaders[currentAdminPage] || pageLoaders.overview).map((load) => load()));
 }
 
-loadDashboard();
+const legacySection = currentAdminPage === "overview" ? window.location.hash.slice(1) : "";
+if (["products", "categories", "orders", "customers", "coupons", "reviews", "payments"].includes(legacySection)) {
+  window.location.replace(`${legacySection}.html`);
+} else {
+  loadDashboard();
+}

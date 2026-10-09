@@ -13,26 +13,34 @@
   <link rel="stylesheet" href="../../css/responsive.css">
   <link rel="stylesheet" href="../../css/account.css">
 </head>
-<body class="account-page" data-root="../../">
+<body class="account-page checkout-page" data-root="../../">
   <div id="navbar"></div>
-  <main class="container section">
-    <h1>Checkout</h1>
+  <main class="container section checkout-page-main">
+    <header class="checkout-page-header">
+      <span class="checkout-kicker">SECURE CHECKOUT</span>
+      <h1>Complete your order</h1>
+      <p class="muted">You’re just a few details away from getting your new gadget.</p>
+    </header>
     <p id="checkout-status" class="muted" role="status" aria-live="polite"></p>
     <div class="checkout-layout">
       <form class="form-card checkout-form" id="checkout-form">
-        <h2>Delivery details</h2>
-        <p class="muted">Enter the address where your order should be delivered.</p>
-        <div class="field"><label for="fullName">Full name</label><input id="fullName" name="fullName" autocomplete="name" required minlength="2" maxlength="100"></div>
-        <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" required minlength="7" maxlength="20"></div>
+        <div class="checkout-section-heading"><span class="checkout-step">1</span><div><h2>Delivery details</h2><p class="muted">Where should we deliver your order?</p></div></div>
+        <div class="checkout-field-row">
+          <div class="field"><label for="fullName">Full name</label><input id="fullName" name="fullName" autocomplete="name" required minlength="2" maxlength="100"></div>
+          <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" required minlength="7" maxlength="20"></div>
+        </div>
         <div class="field"><label for="address">Street address</label><input id="address" name="address" autocomplete="street-address" required minlength="5" maxlength="300"></div>
-        <div class="field"><label for="city">City</label><input id="city" name="city" autocomplete="address-level2" required minlength="2" maxlength="100"></div>
-        <div class="field"><label for="state">State</label><input id="state" name="state" autocomplete="address-level1" required minlength="2" maxlength="100"></div>
+        <div class="checkout-field-row">
+          <div class="field"><label for="city">City</label><input id="city" name="city" autocomplete="address-level2" required minlength="2" maxlength="100"></div>
+          <div class="field"><label for="state">State</label><input id="state" name="state" autocomplete="address-level1" required minlength="2" maxlength="100"></div>
+        </div>
         <div class="field"><label for="country">Country</label><input id="country" name="country" autocomplete="country-name" value="Nigeria" required minlength="2" maxlength="100"></div>
-        <button class="btn primary" id="checkout-submit" type="submit">Continue to payment</button>
+        <div class="checkout-secure-note"><span aria-hidden="true">✓</span><span><strong>Secure payment</strong><small>Your payment is processed securely by Paystack.</small></span></div>
+        <button class="btn primary" id="checkout-submit" type="submit">Continue to secure payment <span aria-hidden="true">→</span></button>
         <a class="btn ghost" style="width:100%;margin-top:12px" href="cart.html">Return to cart</a>
       </form>
       <section class="card checkout-summary" aria-labelledby="summary-title">
-        <h2 id="summary-title">Order summary</h2>
+        <div class="checkout-section-heading"><span class="checkout-step checkout-step-secondary">2</span><div><h2 id="summary-title">Order summary</h2><p class="muted">Items in your bag</p></div></div>
         <div id="checkout-items"><p class="muted">Loading your cart...</p></div>
         <div class="summary-total"><span>Subtotal</span><strong id="checkout-total">—</strong></div>
         <p class="muted">Shipping and any applicable discounts are confirmed when your order is created.</p>
